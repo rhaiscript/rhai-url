@@ -1,0 +1,14 @@
+[package]
+name = "rhai-url"
+version = "0.0.1"
+edition = "2021"
+repository = "https://github.com/lucacicada/rhai-url"
+readme = "README.md"
+license = "MIT"
+description = "Url package for Rhai"
+keywords = ["scripting", "scripting-language", "embedded", "rhai", "url"]
+categories = ["embedded"]
+
+[dependencies]
+rhai = { version = ">=1.9" }
+url = { version = ">=2.0" }
