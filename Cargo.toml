@@ -2,13 +2,26 @@
 name = "rhai-url"
 version = "0.0.1"
 edition = "2021"
-repository = "https://github.com/lucacicada/rhai-url"
+authors = ["Luca <git@lucacicada.me>"]
+repository = "https://github.com/rhaiscript/rhai-url"
 readme = "README.md"
-license = "MIT"
+license = "MIT OR Apache-2.0"
 description = "Url package for Rhai"
 keywords = ["scripting", "scripting-language", "embedded", "rhai", "url"]
 categories = ["embedded"]
 
+[features]
+default = []
+metadata = ["rhai/metadata"] # doc generation
+no_index = []                # support `no_index` builds of rhai
+
 [dependencies]
 rhai = { version = ">=1.9" }
 url = { version = ">=2.0" }
+
+[build-dependencies]
+rhai = { version = ">=1.11" }
+
+# NOTE: Need to manually specify `metadata` feature for local `cargo doc`.
+[package.metadata.docs.rs]
+features = ["metadata"]
