@@ -11,7 +11,7 @@ pub mod url_module {
     ///
     /// Rhai usage:
     ///
-    /// ```js, rhai
+    /// ```js
     ///   let url = Url("http://test.dev/")
     /// ```
     #[rhai_fn(name = "Url", return_raw)]
@@ -25,7 +25,7 @@ pub mod url_module {
     ///
     /// Rhai usage:
     ///
-    /// ```js, rhai
+    /// ```js
     ///   let url = Url("http://test.dev/")
     ///   let fullUrl = url.href // 'http://test.dev/'
     /// ```
@@ -40,7 +40,7 @@ pub mod url_module {
     ///
     /// Rhai usage:
     ///
-    /// ```js, rhai
+    /// ```js
     ///   let url = Url("http://test.dev/")
     ///   let scheme = url.scheme // 'http'
     /// ```
@@ -51,11 +51,22 @@ pub mod url_module {
 
     /// Sets the Url scheme.
     ///
+    /// Be aware as this method will refuse to change the scheme under the following circumstances:
+    ///
+    /// * If the new scheme is not in `[a-zA-Z][a-zA-Z0-9+.-]+`
+    /// * If this URL is cannot-be-a-base and the new scheme is one of
+    ///   `http`, `https`, `ws`, `wss` or `ftp`
+    /// * If either the old or new scheme is `http`, `https`, `ws`,
+    ///   `wss` or `ftp` and the other is not one of these
+    /// * If the new scheme is `file` and this URL includes credentials
+    ///   or has a non-null port
+    /// * If this URL's scheme is `file` and its host is empty or null
+    ///
     /// # Examples
     ///
     /// Rhai usage:
     ///
-    /// ```js, rhai
+    /// ```js
     ///   let url = Url("http://test.dev/")
     ///   url.scheme = "https"
     ///
@@ -73,7 +84,7 @@ pub mod url_module {
     ///
     /// Rhai usage:
     ///
-    /// ```js, rhai
+    /// ```js
     ///   let url = Url("http://test.dev/")
     ///   let domain = url.domain // 'test.dev'
     /// ```
@@ -88,7 +99,7 @@ pub mod url_module {
     ///
     /// Rhai usage:
     ///
-    /// ```js, rhai
+    /// ```js
     ///   let url = Url("http://test.dev/path")
     ///   let path = url.path // '/path'
     /// ```
@@ -109,7 +120,7 @@ pub mod url_module {
     ///
     /// Rhai usage:
     ///
-    /// ```js, rhai
+    /// ```js
     ///   let url = Url("http://test.dev/?page=2")
     ///   let query = url.query // 'page=2'
     /// ```
@@ -143,7 +154,7 @@ pub mod url_module {
     ///
     /// Rhai usage:
     ///
-    /// ```js, rhai
+    /// ```js
     ///   let url = Url("http://test.dev/?#row=4")
     ///   let fragment = url.fragment // 'row=4'
     /// ```
@@ -177,9 +188,9 @@ pub mod url_module {
     ///
     /// Rhai usage:
     ///
-    /// ```js, rhai
-    ///   let url = Url("http://test.dev/?#row=4")
-    ///   let hash = url.hash // 'row=4'
+    /// ```js
+    ///   let url = Url("http://test.dev/?#row=4");
+    ///   let hash = url.hash; // 'row=4'
     /// ```
     #[rhai_fn(global, get = "hash", pure)]
     pub fn hash(url: &mut Url) -> ImmutableString {
@@ -216,10 +227,37 @@ pub mod url_module {
         name = "query_remove",
         pure
     )]
+    /// Clear the query string.
+    ///
+    /// # Examples
+    ///
+    /// Rhai usage:
+    ///
+    /// ```js
+    ///   let url = Url("http://test.dev/?q=query&b=1");
+    ///
+    ///   url.query_clear();
+    ///
+    ///   url == "http://test.dev/"
+    /// ```
     pub fn query_clear(url: &mut Url) {
         url.set_query(None)
     }
 
+    /// Delete a key from the query
+    ///
+    /// # Examples
+    ///
+    /// Rhai usage:
+    ///
+    /// ```js
+    ///   let url = Url("http://test.dev/?q=query&b=1");
+    ///
+    ///   url.query_delete("q"); // or
+    ///   url.query_remove("q");
+    ///
+    ///   url == "http://test.dev/?b=1"
+    /// ```
     #[rhai_fn(global, name = "query_delete", name = "query_remove", pure)]
     pub fn query_delete(url: &mut Url, key: &str) {
         let query: Vec<(String, String)> = url
@@ -243,12 +281,38 @@ pub mod url_module {
         url.query_pairs_mut().append_pair(key, value);
     }
 
+    /// Sets a query key
+    ///
+    /// # Examples
+    ///
+    /// Rhai usage:
+    ///
+    /// ```js
+    ///   let url = Url("http://test.dev/?q=query&b=1");
+    ///
+    ///   url.query_set("q", "new-query"); // or
+    ///   url.query_remove("q");
+    ///
+    ///   url == "http://test.dev/?q=new-query&b=1"
+    /// ```
     #[rhai_fn(global, name = "query_set", pure)]
     pub fn query_set(url: &mut Url, key: &str, value: &str) {
         query_delete(url, key);
         query_append(url, key, value);
     }
 
+    /// Gets a query value for the specified key, it will return the first value found
+    ///
+    /// # Examples
+    ///
+    /// Rhai usage:
+    ///
+    /// ```js
+    ///   let url = Url("http://test.dev/?q=query&b=1");
+    ///
+    ///   url.query_get("q"); // "query"
+    ///   url.query_get("b"); // "1"
+    /// ```
     #[rhai_fn(global, name = "query_get", pure)]
     pub fn query_get(url: &mut Url, key: &str) -> ImmutableString {
         match url.query_pairs().find(|(name, _)| name == key) {
@@ -257,6 +321,17 @@ pub mod url_module {
         }
     }
 
+    /// Gets a list of values for the specified key
+    ///
+    /// # Examples
+    ///
+    /// Rhai usage:
+    ///
+    /// ```js
+    ///   let url = Url("http://test.dev/?q=query&q=second-query");
+    ///
+    ///   url.query_get("q"); // ["query", "second-query"]
+    /// ```
     #[rhai_fn(global, name = "query_gets", name = "query_getAll", pure)]
     pub fn query_gets(url: &mut Url, key: &str) -> Vec<ImmutableString> {
         url.query_pairs()
@@ -265,6 +340,18 @@ pub mod url_module {
             .collect()
     }
 
+    /// Get the absolute url as a string
+    ///
+    /// # Examples
+    ///
+    /// Rhai usage:
+    ///
+    /// ```js
+    ///   let url = Url("http://test.dev/path");
+    ///
+    ///   url.to_string(); // "http://test.dev/path"
+    ///   url.to_debug(); // "http://test.dev/path"
+    /// ```
     #[rhai_fn(global, name = "to_string", name = "to_debug", pure)]
     pub fn to_string(url: &mut Url) -> ImmutableString {
         url.to_string().into()

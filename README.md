@@ -1,4 +1,9 @@
-# `rhai-url`
+# About `rhai-url`
+
+[![License](https://img.shields.io/crates/l/rhai-url)](https://github.com/license/rhaiscript/rhai-url)
+[![crates.io](https://img.shields.io/crates/v/rhai-url?logo=rust)](https://crates.io/crates/rhai-url/)
+[![crates.io](https://img.shields.io/crates/d/rhai-url?logo=rust)](https://crates.io/crates/rhai-url/)
+[![API Docs](https://docs.rs/rhai-url/badge.svg?logo=docs-rs)](https://docs.rs/rhai-url/)
 
 This crate provides `url::Url` access for the [Rhai] scripting language.
 
@@ -14,23 +19,38 @@ rhai-url = "0.0.1"
 ### [Rhai] script
 
 ```js
+// create a new Url
 let url = Url("http://example.com/?q=query");
 
+// get the absolute url as a string
 print(url.href); // print 'http://example.com/?q=query'
 print(url.to_string()); // print 'http://example.com/?q=query'
 
+// get the url query string, without the leading ?
 print(url.query); // print 'q=query'
 
-// fragment and hash are aliases
+// get the url fragment
 print(url.fragment); // print ''
+
+// hash is an alias of fragment
 print(url.hash); // print ''
 
+// clear the query
 url.query_clear();
 print(url.query); // print ''
 
+// remove a query key
 url.query_remove("q");
+
+// query_remove with no arguments will clear the query string
+url.query_remove();
+
+// adds a query key value pair into the query string
 url.query_append("q", "name");
+
 ```
+
+You can see an example on how to use those function in the [tests](tests/url.rs).
 
 ### Rust source
 
@@ -61,3 +81,12 @@ fn main() -> Result<(), Box<EvalAltResult>> {
     Ok(())
 }
 ```
+
+## Features
+
+|  Feature   | Default  | Description                                          |
+| :--------: | :------: | ---------------------------------------------------- |
+| `no_index` | disabled | Enables support for `no_index` builds of [Rhai]      |
+| `metadata` | disabled | Enables support for generating package documentation |
+
+[Rhai]: https://rhai.rs
