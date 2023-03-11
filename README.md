@@ -13,7 +13,7 @@ This crate provides `url::Url` access for the [Rhai] scripting language.
 
 ```toml
 [dependencies]
-rhai-url = "0.0.1"
+rhai-url = "0.0.2"
 ```
 
 ### [Rhai] script
