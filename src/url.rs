@@ -7,12 +7,10 @@ pub mod url_module {
 
     /// Creates a new Url.
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/")
+    /// let url = Url("http://test.dev/")
     /// ```
     #[rhai_fn(name = "Url", return_raw)]
     pub fn new(url: &str) -> Result<Url, Box<EvalAltResult>> {
@@ -21,13 +19,11 @@ pub mod url_module {
 
     /// Gets the full Url, same as to_string().
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/")
-    ///   let fullUrl = url.href // 'http://test.dev/'
+    /// let url = Url("http://test.dev/")
+    /// let fullUrl = url.href // 'http://test.dev/'
     /// ```
     #[rhai_fn(global, get = "href", pure)]
     pub fn href(url: &mut Url) -> ImmutableString {
@@ -36,13 +32,11 @@ pub mod url_module {
 
     /// Gets the Url scheme such as 'http' or 'https'.
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/")
-    ///   let scheme = url.scheme // 'http'
+    /// let url = Url("http://test.dev/")
+    /// let scheme = url.scheme // 'http'
     /// ```
     #[rhai_fn(global, get = "scheme", pure)]
     pub fn scheme(url: &mut Url) -> ImmutableString {
@@ -62,16 +56,14 @@ pub mod url_module {
     ///   or has a non-null port
     /// * If this URL's scheme is `file` and its host is empty or null
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/")
-    ///   url.scheme = "https"
+    /// let url = Url("http://test.dev/")
+    /// url.scheme = "https"
     ///
-    ///   let scheme = url.scheme // 'https'
-    ///   let fullUrl = url.href // 'https://test.dev/'
+    /// let scheme = url.scheme // 'https'
+    /// let fullUrl = url.href // 'https://test.dev/'
     /// ```
     #[rhai_fn(global, set = "scheme", pure)]
     pub fn set_scheme(url: &mut Url, value: &str) {
@@ -80,13 +72,11 @@ pub mod url_module {
 
     /// Gets the Url domain.
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/")
-    ///   let domain = url.domain // 'test.dev'
+    /// let url = Url("http://test.dev/")
+    /// let domain = url.domain // 'test.dev'
     /// ```
     #[rhai_fn(global, get = "domain", pure)]
     pub fn domain(url: &mut Url) -> ImmutableString {
@@ -95,13 +85,11 @@ pub mod url_module {
 
     /// Gets the Url path.
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/path")
-    ///   let path = url.path // '/path'
+    /// let url = Url("http://test.dev/path")
+    /// let path = url.path // '/path'
     /// ```
     #[rhai_fn(global, get = "path", pure)]
     pub fn path(url: &mut Url) -> ImmutableString {
@@ -116,13 +104,11 @@ pub mod url_module {
 
     /// Gets the Url query string.
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/?page=2")
-    ///   let query = url.query // 'page=2'
+    /// let url = Url("http://test.dev/?page=2")
+    /// let query = url.query // 'page=2'
     /// ```
     #[rhai_fn(global, get = "query", pure)]
     pub fn query(url: &mut Url) -> ImmutableString {
@@ -150,13 +136,11 @@ pub mod url_module {
 
     /// Gets the Url fragment.
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/?#row=4")
-    ///   let fragment = url.fragment // 'row=4'
+    /// let url = Url("http://test.dev/?#row=4")
+    /// let fragment = url.fragment // 'row=4'
     /// ```
     #[rhai_fn(global, get = "fragment", pure)]
     pub fn fragment(url: &mut Url) -> ImmutableString {
@@ -184,13 +168,11 @@ pub mod url_module {
 
     /// Gets the Url hash, alias of fragment.
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/?#row=4");
-    ///   let hash = url.hash; // 'row=4'
+    /// let url = Url("http://test.dev/?#row=4");
+    /// let hash = url.hash; // 'row=4'
     /// ```
     #[rhai_fn(global, get = "hash", pure)]
     pub fn hash(url: &mut Url) -> ImmutableString {
@@ -229,16 +211,14 @@ pub mod url_module {
     )]
     /// Clear the query string.
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/?q=query&b=1");
+    /// let url = Url("http://test.dev/?q=query&b=1");
     ///
-    ///   url.query_clear();
+    /// url.query_clear();
     ///
-    ///   url == "http://test.dev/"
+    /// url == "http://test.dev/"
     /// ```
     pub fn query_clear(url: &mut Url) {
         url.set_query(None)
@@ -246,17 +226,15 @@ pub mod url_module {
 
     /// Delete a key from the query
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/?q=query&b=1");
+    /// let url = Url("http://test.dev/?q=query&b=1");
     ///
-    ///   url.query_delete("q"); // or
-    ///   url.query_remove("q");
+    /// url.query_delete("q"); // or
+    /// url.query_remove("q");
     ///
-    ///   url == "http://test.dev/?b=1"
+    /// url == "http://test.dev/?b=1"
     /// ```
     #[rhai_fn(global, name = "query_delete", name = "query_remove", pure)]
     pub fn query_delete(url: &mut Url, key: &str) {
@@ -283,17 +261,15 @@ pub mod url_module {
 
     /// Sets a query key
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/?q=query&b=1");
+    /// let url = Url("http://test.dev/?q=query&b=1");
     ///
-    ///   url.query_set("q", "new-query"); // or
-    ///   url.query_remove("q");
+    /// url.query_set("q", "new-query"); // or
+    /// url.query_remove("q");
     ///
-    ///   url == "http://test.dev/?q=new-query&b=1"
+    /// url == "http://test.dev/?q=new-query&b=1"
     /// ```
     #[rhai_fn(global, name = "query_set", pure)]
     pub fn query_set(url: &mut Url, key: &str, value: &str) {
@@ -303,15 +279,13 @@ pub mod url_module {
 
     /// Gets a query value for the specified key, it will return the first value found
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/?q=query&b=1");
+    /// let url = Url("http://test.dev/?q=query&b=1");
     ///
-    ///   url.query_get("q"); // "query"
-    ///   url.query_get("b"); // "1"
+    /// url.query_get("q"); // "query"
+    /// url.query_get("b"); // "1"
     /// ```
     #[rhai_fn(global, name = "query_get", pure)]
     pub fn query_get(url: &mut Url, key: &str) -> ImmutableString {
@@ -323,14 +297,12 @@ pub mod url_module {
 
     /// Gets a list of values for the specified key
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/?q=query&q=second-query");
+    /// let url = Url("http://test.dev/?q=query&q=second-query");
     ///
-    ///   url.query_get("q"); // ["query", "second-query"]
+    /// url.query_get("q"); // ["query", "second-query"]
     /// ```
     #[rhai_fn(global, name = "query_gets", name = "query_getAll", pure)]
     pub fn query_gets(url: &mut Url, key: &str) -> Vec<ImmutableString> {
@@ -342,15 +314,13 @@ pub mod url_module {
 
     /// Get the absolute url as a string
     ///
-    /// # Examples
-    ///
-    /// Rhai usage:
+    /// ### Example
     ///
     /// ```js
-    ///   let url = Url("http://test.dev/path");
+    /// let url = Url("http://test.dev/path");
     ///
-    ///   url.to_string(); // "http://test.dev/path"
-    ///   url.to_debug(); // "http://test.dev/path"
+    /// url.to_string(); // "http://test.dev/path"
+    /// url.to_debug(); // "http://test.dev/path"
     /// ```
     #[rhai_fn(global, name = "to_string", name = "to_debug", pure)]
     pub fn to_string(url: &mut Url) -> ImmutableString {
