@@ -297,6 +297,8 @@ pub mod url_module {
 
     /// Gets a list of values for the specified key
     ///
+    /// Not available under `no_index`.
+    ///
     /// ### Example
     ///
     /// ```js
@@ -305,10 +307,11 @@ pub mod url_module {
     /// url.query_get("q"); // ["query", "second-query"]
     /// ```
     #[rhai_fn(global, name = "query_gets", name = "query_getAll", pure)]
-    pub fn query_gets(url: &mut Url, key: &str) -> Vec<ImmutableString> {
+    #[cfg(not(feature = "no_index"))]
+    pub fn query_gets(url: &mut Url, key: &str) -> rhai::Array {
         url.query_pairs()
             .filter(|(name, _)| name == key)
-            .map(|(_, value)| ImmutableString::from(value.as_ref()))
+            .map(|(_, value)| ImmutableString::from(value.as_ref()).into())
             .collect()
     }
 
