@@ -13,7 +13,7 @@ This crate provides `url::Url` access for the [Rhai] scripting language.
 
 ```toml
 [dependencies]
-rhai-url = "0.0.3"
+rhai-url = "0.0.4"
 ```
 
 ### [Rhai] script
@@ -86,7 +86,7 @@ fn main() -> Result<(), Box<EvalAltResult>> {
 
 |  Feature   | Default  | Description                                          |
 | :--------: | :------: | ---------------------------------------------------- |
-| `no_index` | disabled | Enables support for `no_index` builds of [Rhai]      |
+| `array`    | enabled  | Enables support for [Rhai] `Array`                   |
 | `metadata` | disabled | Enables support for generating package documentation |
 
 [Rhai]: https://rhai.rs
