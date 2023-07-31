@@ -11,9 +11,9 @@ keywords = ["scripting", "scripting-language", "embedded", "rhai", "url"]
 categories = ["embedded"]
 
 [features]
-default = []
+default = ["array"]
 metadata = ["rhai/metadata"] # doc generation
-no_index = []                # support `no_index` builds of rhai
+array = []                   # support `rhai::Array`
 
 [dependencies]
 rhai = { version = ">=1.9" }

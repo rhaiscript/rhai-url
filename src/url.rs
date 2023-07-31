@@ -306,8 +306,8 @@ pub mod url_module {
     ///
     /// url.query_get("q"); // ["query", "second-query"]
     /// ```
+    #[cfg(feature = "array")]
     #[rhai_fn(global, name = "query_gets", name = "query_getAll", pure)]
-    #[cfg(not(feature = "no_index"))]
     pub fn query_gets(url: &mut Url, key: &str) -> rhai::Array {
         url.query_pairs()
             .filter(|(name, _)| name == key)
