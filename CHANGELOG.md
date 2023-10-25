@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.0.5
+
+[compare changes](https://github.com/rhaiscript/rhai-url/compare/v0.0.4...v0.0.5)
+
+### Changes
+
+Fixed the build.rs script to handle newer versions of Rhai starting from 1.16. In particular, the JSON metadata output from Rhai now contains other sections in addition to functions, which causes build.rs to fail.
+
 ## v0.0.4
 
 [compare changes](https://github.com/rhaiscript/rhai-url/compare/v0.0.3...v0.0.4)
