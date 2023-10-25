@@ -29,6 +29,11 @@ mod doc_gen {
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
+    struct Metadata {
+        #[serde(default)]
+        pub functions: Vec<DocFunc>,
+    }
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     #[allow(non_snake_case)]
     struct DocFunc {
         pub access: String,
@@ -123,8 +128,8 @@ mod doc_gen {
 
         // Extract metadata
         let json_fns = engine.gen_fn_metadata_to_json(false).unwrap();
-        let v: HashMap<String, Vec<DocFunc>> = serde_json::from_str(&json_fns).unwrap();
-        let function_list = v["functions"].clone();
+        let v: Metadata = serde_json::from_str(&json_fns).unwrap();
+        let function_list = v.functions;
 
         // Write functions
         let mut indented = false;
