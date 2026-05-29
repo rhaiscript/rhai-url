@@ -1,5 +1,5 @@
-#[allow(unused_imports)]
 use rhai::plugin::*;
+use rhai::{EvalAltResult, ImmutableString};
 
 #[export_module]
 pub mod url_module {
