@@ -4,6 +4,8 @@
 
 [compare changes](https://github.com/rhaiscript/rhai-url/compare/v0.0.5...v0.0.6)
 
+Import types that have been removed from `rhai::plugin`.
+
 ## v0.0.5
 
 [compare changes](https://github.com/rhaiscript/rhai-url/compare/v0.0.4...v0.0.5)
